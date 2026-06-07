@@ -1583,6 +1583,20 @@ Fico feliz em ter você aqui. Qual o seu nome?</span>
 
   if (totalTokens > 0) updateTokenBar(totalTokens);
 
+  // Busca tokens reais do servidor ao carregar
+  async function syncTokensFromServer() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/health`);
+      const data = await res.json();
+      if (data.ok && data.dailyTokens > totalTokens) {
+        totalTokens = data.dailyTokens;
+        localStorage.setItem('vrtx_tokens', totalTokens);
+        updateTokenBar(totalTokens);
+      }
+    } catch (e) { /* silencioso */ }
+  }
+  syncTokensFromServer();
+
   // Countdown até meia-noite UTC (reset diário da Groq)
   const tokenResetEl = document.getElementById('tokenReset');
   function updateDailyReset() {
