@@ -1,67 +1,54 @@
-# VRTX Agency — Site Institucional
+# VRTX Agency — Site Teste
 
-Site institucional da VRTX Agency integrado ao agente de atendimento Luna via backend Node.js + Groq.
+Site Fictício de agência de Marketing integrado ao agente de atendimento 
+Luna via backend Node.js + Groq API.
 
 ## Estrutura
 
-```
-agencia-marketing.html   ← site completo (single file)
+index.html   ← site completo (single file)
 README.md
-```
 
 ## Como funciona o chat
 
-O chat do site conecta diretamente à rota `/chat` do backend:
+O chat do site conecta diretamente à rota /chat do backend:
 
-- **Backend:** Node.js + Express rodando no Oracle Cloud
-- **IA:** Groq API com modelo `llama-3.3-70b-versatile`
-- **Tunnel:** Cloudflare Tunnel (expõe o backend publicamente)
-- **Sessão:** `sessionId` persistido no `localStorage` do navegador
-- **TTL:** Sessões expiram após 2h de inatividade no servidor
+- Backend: Node.js + Express rodando no Oracle Cloud
+- IA: Groq API com modelo llama-3.3-70b-versatile
+- Tunnel: ngrok (URL fixa permanente)
+- Sessão: sessionId persistido no localStorage do navegador
+- TTL: Sessões expiram após 2h de inatividade no servidor
+- CORS: configurado no backend (origin: *)
 
-## Configuração
+## Telegram
 
-Antes de publicar, atualize a URL do backend no HTML:
+- Bot: @agente_marketing_sette_bot
+- Webhook: https://alienate-lively-budget.ngrok-free.dev/telegram
+- O mesmo agente Luna atende tanto pelo chat do site quanto pelo Telegram
+- Ao finalizar o briefing, uma notificação é enviada automaticamente 
+  para o Telegram pessoal do administrador
+- Comando /start reinicia a conversa no Telegram
 
-```js
+## URL do backend
+
 const BACKEND_URL = 'https://alienate-lively-budget.ngrok-free.dev';
-```
 
-## CORS — obrigatório no backend
+## Deploy
 
-Para o site em produção (GitHub Pages ou outro host) funcionar,
-adicione o domínio do site no `server.js`:
-
-```js
-import cors from 'cors';
-app.use(cors({ origin: 'https://seu-usuario.github.io' }));
-```
-
-Instale o pacote:
-```bash
-npm install cors
-cd ~/agente-telegram && npm install cors
-```
-
-## Deploy no GitHub Pages
-
-1. Crie um repositório público no GitHub
-2. Suba o `agencia-marketing.html` e o `README.md`
-3. Vá em **Settings → Pages → Deploy from branch → main**
-4. O site ficará em: `https://seu-usuario.github.io/nome-do-repo/agencia-marketing.html`
+Site publicado via Vercel com deploy automático a partir desta branch.
 
 ## Backend — comandos úteis
 
-```bash
-# Ver status
+# Ver status dos processos
 pm2 status
 
-# Ver logs
+# Ver logs do agente
 pm2 logs agente-telegram --lines 30
 
-# Reiniciar
+# Reiniciar agente
 pm2 restart agente-telegram --update-env
 
 # Ver sessões ativas
 curl https://alienate-lively-budget.ngrok-free.dev/health
-```
+
+# Reiniciar tunnel ngrok
+pm2 restart ngrok-tunnel
