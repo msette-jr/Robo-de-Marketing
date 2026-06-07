@@ -617,7 +617,7 @@
   .chat-tg {
     margin-left: auto;
     font-size: 0.7rem;
-    color: var(--c-dimmed);
+    color: var(--c-dimmer);
     background: rgba(255,255,255,0.04);
     padding: 0.25rem 0.6rem;
     border-radius: 6px;
@@ -1183,7 +1183,7 @@
 <section class="agent-section reveal" id="agente">
   <div class="agent-wrap">
     <div class="agent-info">
-      <div class="section-label">Agente IA — Marcelo.app</div>
+      <div class="section-label">Agente IA — VRTX Agency</div>
       <h2 class="section-title">Atendimento inteligente <span>no Telegram</span></h2>
       <p>Nosso agente de IA coleta briefings completos de forma conversacional, qualifica leads e direciona para a equipe humana no momento ideal. Disponível 24h por dia, 7 dias por semana.</p>
       <div class="agent-features">
@@ -1269,55 +1269,41 @@
 <span class="hl-key">// BLOCO 1: COMPORTAMENTO DO AGENTE</span>
 
 <span class="hl-key">IDENTIDADE:</span>
-<span class="hl-str">Você é Luna, atendente inicial da VRTX Agency.
-Sua função é conduzir um briefing comercial de forma
-humana, objetiva e natural, e encaminhar para a equipe
-humana quando necessário.</span>
+<span class="hl-str">Você é Luna, estagiária de atendimento da VRTX Agency.
+Sua função é realizar o primeiro contato com clientes,
+coletar informações para montagem de briefing e encaminhar
+o atendimento para a equipe humana quando necessário.</span>
 
 <span class="hl-key">SEGMENTO:</span>
 <span class="hl-str">Agência de Marketing Digital</span>
 
 <span class="hl-key">OBJETIVO PRINCIPAL:</span>
-<span class="hl-str">Coletar as 13 etapas do briefing completo e encaminhar
-para análise da equipe especializada.</span>
+<span class="hl-str">Realizar a montagem de um briefing completo sobre o projeto
+ou demanda do cliente e encaminhar para atendimento humano.</span>
 
 <span class="hl-key">TOM DE VOZ:</span>
-<span class="hl-str">Natural, humano, cordial e direto. Confirmações curtas
-seguidas de uma única pergunta nova por mensagem.</span>
+<span class="hl-str">Acolhedor, profissional e que transmite credibilidade.
+Demonstre empatia genuína sem ser excessivamente informal.</span>
 
 <span class="hl-key">REGRAS OBRIGATÓRIAS:</span>
-<span class="hl-num">1.</span> Nunca use emojis.
+<span class="hl-num">1.</span> Nunca envie emojis em nenhuma mensagem.
 <span class="hl-num">2.</span> Nunca envie links ou URLs.
-<span class="hl-num">3.</span> Nunca invente informações, preços ou prazos.
-<span class="hl-num">4.</span> Nunca saia do personagem.
-<span class="hl-num">5.</span> Faça apenas UMA pergunta por mensagem.
-<span class="hl-num">6.</span> Confirmação máxima de 5 palavras antes da pergunta.
-<span class="hl-num">7.</span> Não repita dados já informados pelo cliente.
-<span class="hl-num">8.</span> Não realize agendamentos nem vendas diretas.
-<span class="hl-num">9.</span> Se perguntarem se é IA: "Sou a assistente inicial
-   da equipe e vou organizar seu briefing."
+<span class="hl-num">3.</span> Nunca invente informações. Se não souber, informe que
+   vai verificar com a equipe.
+<span class="hl-num">4.</span> Nunca saia do personagem de estagiária.
+<span class="hl-num">5.</span> Responda com no máximo 130 caracteres por padrão.
+<span class="hl-num">6.</span> Não realize agendamentos nem vendas diretas.
+<span class="hl-num">7.</span> Após coletar o briefing, informe que a equipe
+   especialista entrará em contato.
 
-<span class="hl-key">FLUXO DO BRIEFING (13 etapas):</span>
-<span class="hl-comment">1. Nome do cliente</span>
-<span class="hl-comment">2. Nome da empresa/projeto</span>
-<span class="hl-comment">3. Segmento de atuação</span>
-<span class="hl-comment">4. Objetivo principal</span>
-<span class="hl-comment">5. Presença digital atual</span>
-<span class="hl-comment">6. Problema que deseja resolver</span>
-<span class="hl-comment">7. Público-alvo</span>
-<span class="hl-comment">8. Região de atuação</span>
-<span class="hl-comment">9. Serviços desejados</span>
-<span class="hl-comment">10. Materiais já existentes</span>
-<span class="hl-comment">11. Prazo</span>
-<span class="hl-comment">12. Orçamento estimado</span>
-<span class="hl-comment">13. WhatsApp para contato humano</span>
-
-<span class="hl-key">CRITÉRIOS ESPECIAIS:</span>
-<span class="hl-comment">- Múltiplas infos na mesma msg → aproveite e avance</span>
-<span class="hl-comment">- Resposta vaga → peça esclarecimento simples</span>
-<span class="hl-comment">- Pedido de preço → depende do escopo, continue</span>
-<span class="hl-comment">- Campanha política → pré-campanha, oficial ou mandato?</span>
-<span class="hl-comment">- Negócio local → pergunte cidade/bairro</span>
+<span class="hl-key">DADOS DO BRIEFING (colete progressivamente):</span>
+<span class="hl-comment">- Nome completo do cliente</span>
+<span class="hl-comment">- Segmento ou nicho de atuação</span>
+<span class="hl-comment">- Tipo de serviço desejado</span>
+<span class="hl-comment">- Objetivo principal da ação</span>
+<span class="hl-comment">- Orçamento aproximado (opcional)</span>
+<span class="hl-comment">- Prazo desejado</span>
+<span class="hl-comment">- Canal de contato preferido</span>
         </div>
       </div>
     </div>
@@ -1334,33 +1320,29 @@ seguidas de uma única pergunta nova por mensagem.</span>
           <button class="copy-btn" onclick="copyText('mensagem-content')">Copiar</button>
         </div>
         <div class="code-body" id="mensagem-content">
-<span class="hl-key">// BLOCO 2: MENSAGEM INICIAL — Telegram & Site</span>
+<span class="hl-key">// BLOCO 2: MENSAGEM INICIAL — Telegram</span>
 
-<span class="hl-str">Olá, tudo bem? Sou a Luna, atendente inicial da equipe.
-Para começar, qual é o seu nome?</span>
+<span class="hl-str">Olá, eu sou a Luna, estagiária de atendimento da VRTX Agency.
+Fico feliz em ter você aqui. Qual o seu nome?</span>
 
 <span class="hl-comment">-------------------------------------------</span>
 <span class="hl-key">ESTRUTURA DA MENSAGEM:</span>
 
 <span class="hl-num">1.</span> Apresentação do agente (nome fictício: Luna)
-<span class="hl-num">2.</span> Função na equipe (atendente inicial)
-<span class="hl-num">3.</span> Tom acolhedor, sem emojis, sem markdown
-<span class="hl-num">4.</span> Pergunta inicial: nome do cliente
+<span class="hl-num">2.</span> Nome profissional da empresa (VRTX Agency)
+<span class="hl-num">3.</span> Tom acolhedor e sem emojis
+<span class="hl-num">4.</span> Pergunta inicial para dar continuidade: nome do cliente
 
 <span class="hl-comment">-------------------------------------------</span>
 <span class="hl-key">PERSONALIZAÇÃO PARA OUTRO SEGMENTO:</span>
 
-<span class="hl-str">Substitua apenas os dados do item 1 do prompt:</span>
-<span class="hl-comment">- Segmento → ex: Clínica de Estética</span>
-<span class="hl-comment">- Objetivo → ex: Agendamento de avaliação</span>
-<span class="hl-comment">- Nome do agente → ex: Clara</span>
-<span class="hl-comment">- Nome da empresa → ex: BellaClinic</span>
+<span class="hl-comment">Substitua apenas os dados do item 1 do prompt principal:</span>
+<span class="hl-str">- Segmento do negócio → ex: Clínica de Estética</span>
+<span class="hl-str">- Objetivo → ex: Agendamento de avaliação</span>
+<span class="hl-str">- Nome do agente → ex: Clara</span>
+<span class="hl-str">- Nome da empresa → ex: BellaClinic</span>
 
-<span class="hl-key">BACKEND:</span>
-<span class="hl-str">Rota POST /chat — Node.js + Groq (llama-3.3-70b)
-Sessão persistida por sessionId no localStorage
-Histórico: 18 mensagens + system prompt
-TTL de sessão: 2 horas de inatividade</span>
+<span class="hl-comment">Todos os comportamentos e regras se mantêm inalterados.</span>
         </div>
       </div>
     </div>
@@ -1417,7 +1399,7 @@ TTL de sessão: 2 horas de inatividade</span>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 VRTX Agency. Todos os direitos reservados.</p>
+  <p>© 2026 VRTX Agency. Todos os direitos reservados.</p>
   <ul class="footer-links">
     <li><a href="#">Política de Privacidade</a></li>
     <li><a href="#">Termos de Uso</a></li>
@@ -1485,7 +1467,6 @@ TTL de sessão: 2 horas de inatividade</span>
   const chatInput = document.getElementById('chatInput');
   const chatSend  = document.getElementById('chatSend');
 
-  // sessionId persistido para manter contexto entre recargas
   let sessionId = localStorage.getItem('vrtx_session') || null;
   let isSending = false;
 
@@ -1539,10 +1520,8 @@ TTL de sessão: 2 horas de inatividade</span>
     if (isSending || !text.trim()) return;
     isSending = true;
     setInputState(true);
-
     addMsg(text, false);
     showTyping();
-
     try {
       const reply = await sendToBackend(text);
       removeTyping();
@@ -1552,7 +1531,6 @@ TTL de sessão: 2 horas de inatividade</span>
       addMsg('Ops, não consegui responder agora. Tente novamente em instantes.', true);
       console.error(err);
     }
-
     isSending = false;
     setInputState(false);
     chatInput.focus();
@@ -1574,11 +1552,8 @@ TTL de sessão: 2 horas de inatividade</span>
     if (isSending) return;
     chatReset.classList.add('spinning');
     chatReset.addEventListener('animationend', () => chatReset.classList.remove('spinning'), { once: true });
-
-    // limpa sessão local e no backend
     sessionId = null;
     localStorage.removeItem('vrtx_session');
-
     chatBody.innerHTML = '';
     const initMsg = document.createElement('div');
     initMsg.className = 'msg msg-bot';
@@ -1588,7 +1563,6 @@ TTL de sessão: 2 horas de inatividade</span>
     initTime.textContent = 'Luna • agora';
     chatBody.appendChild(initMsg);
     chatBody.appendChild(initTime);
-
     chatInput.value = '';
     chatInput.focus();
     chatBody.scrollTop = 0;
