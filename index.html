@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRTX Agency — Marketing que Move</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-bg: #080810;
+    --c-surface: #0f0f1a;
+    --c-card: #13131f;
+    --c-border: rgba(255,255,255,0.07);
+    --c-border-glow: rgba(132,94,255,0.3);
+    --c-accent: #845eff;
+    --c-accent2: #ff5e9c;
+    --c-accent3: #5effcf;
+    --c-text: #f0eeff;
+    --c-muted: rgba(240,238,255,0.45);
+    --c-dimmer: rgba(240,238,255,0.18);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 14px;
+    --radius-lg: 22px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--c-bg);
+    color: var(--c-text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(132,94,255,0.5);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  }
+  body:hover #cursor { opacity: 1; }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* Grid bg */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(132,94,255,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(132,94,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ====== NAV ====== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--c-border);
+    background: rgba(8,8,16,0.7);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    color: var(--c-text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--c-accent); }
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--c-text); }
+  .nav-cta {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.55rem 1.4rem;
+    border-radius: 100px;
+    border: 1px solid var(--c-accent);
+    color: var(--c-accent);
+    background: transparent;
+    cursor: none;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--c-accent); color: #fff; }
+
+  /* ====== SECTIONS ====== */
+  section { position: relative; z-index: 2; }
+
+  /* ====== HERO ====== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse, rgba(132,94,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--c-border-glow);
+    background: rgba(132,94,255,0.08);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent3);
+    animation: blink 2s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.2; }
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.8rem;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    max-width: 520px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--c-muted);
+    margin-bottom: 3rem;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .btn-primary {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    border: none;
+    background: var(--c-accent);
+    color: #fff;
+    cursor: none;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(132,94,255,0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(132,94,255,0.6);
+  }
+  .btn-ghost {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    border: 1px solid var(--c-border);
+    background: transparent;
+    color: var(--c-muted);
+    cursor: none;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--c-dimmer); color: var(--c-text); }
+
+  .hero-metrics {
+    display: flex;
+    gap: 4rem;
+    margin-top: 5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--c-border);
+  }
+  .metric-item { text-align: center; }
+  .metric-num {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--c-text), var(--c-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .metric-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-dimmer);
+    margin-top: 0.25rem;
+  }
+
+  /* ====== MARQUEE ====== */
+  .marquee-wrap {
+    overflow: hidden;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+    background: rgba(132,94,255,0.03);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c-dimmer);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .marquee-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    flex-shrink: 0;
+  }
+
+  /* ====== SERVICES ====== */
+  .services {
+    padding: 7rem 4rem;
+  }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--c-accent);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    max-width: 520px;
+    margin-bottom: 4rem;
+  }
+  .section-title span { color: var(--c-accent); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--c-card);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card:hover { background: #161626; }
+  .service-card::before {
+    content: attr(data-num);
+    position: absolute;
+    right: 1.5rem; top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(132,94,255,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .service-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+  .si-purple { background: rgba(132,94,255,0.12); }
+  .si-pink { background: rgba(255,94,156,0.12); }
+  .si-teal { background: rgba(94,255,207,0.12); }
+  .si-amber { background: rgba(255,200,55,0.12); }
+  .si-blue { background: rgba(55,138,221,0.12); }
+  .si-coral { background: rgba(216,90,48,0.12); }
+
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .service-card p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--c-muted);
+  }
+
+  /* ====== ABOUT ====== */
+  .about {
+    padding: 7rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    height: 480px;
+  }
+  .av-card {
+    position: absolute;
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    backdrop-filter: blur(10px);
+  }
+  .av-main {
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(135deg, #12122a, #0d0d1a);
+    border: 1px solid var(--c-border);
+    overflow: hidden;
+  }
+  .av-main-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(132,94,255,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,94,156,0.1) 0%, transparent 50%);
+  }
+  .av-main-content { position: relative; z-index: 1; }
+  .av-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-dimmer);
+    margin-bottom: 0.5rem;
+  }
+  .av-title {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .av-badge {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: rgba(94,255,207,0.12);
+    border: 1px solid rgba(94,255,207,0.2);
+    color: var(--c-accent3);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+  }
+  .av-float1 {
+    top: -20px; right: -20px;
+    width: 200px;
+  }
+  .av-float2 {
+    bottom: 80px; left: -30px;
+    width: 170px;
+  }
+  .float-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--c-accent);
+  }
+  .float-sub {
+    font-size: 0.78rem;
+    color: var(--c-muted);
+    margin-top: 0.25rem;
+  }
+
+  .about-content .section-title { max-width: 100%; }
+  .about-content p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--c-muted);
+    margin-bottom: 1.5rem;
+  }
+  .about-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+  .pill {
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--c-border);
+    font-size: 0.78rem;
+    color: var(--c-muted);
+    font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .pill:hover { border-color: var(--c-border-glow); color: var(--c-accent); }
+
+  /* ====== AGENT SECTION ====== */
+  .agent-section {
+    padding: 7rem 4rem;
+    background: linear-gradient(180deg, transparent, rgba(132,94,255,0.04), transparent);
+  }
+  .agent-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 5rem;
+    align-items: start;
+  }
+  .agent-info .section-title { margin-bottom: 1.5rem; }
+  .agent-info p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--c-muted);
+    margin-bottom: 2rem;
+  }
+  .agent-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .af-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--c-border);
+    background: var(--c-card);
+    transition: border-color 0.2s;
+  }
+  .af-item:hover { border-color: var(--c-border-glow); }
+  .af-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(132,94,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .af-text h4 {
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+  .af-text p {
+    font-size: 0.78rem;
+    color: var(--c-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ====== CHAT WIDGET ====== */
+  .chat-widget {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(132,94,255,0.1);
+    display: flex;
+    flex-direction: column;
+    height: 580px;
+  }
+  .chat-header {
+    padding: 1rem 1.25rem;
+    background: rgba(132,94,255,0.06);
+    border-bottom: 1px solid var(--c-border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .chat-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+  }
+  .chat-header-info h4 {
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .chat-status {
+    font-size: 0.72rem;
+    color: var(--c-accent3);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .chat-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent3);
+    animation: blink 2s infinite;
+  }
+  .chat-tg {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--c-dimmed);
+    background: rgba(255,255,255,0.04);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--c-border);
+  }
+  .chat-reset {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--c-border);
+    background: transparent;
+    color: var(--c-dimmer);
+    font-size: 1rem;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    transition: color 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .chat-reset:hover {
+    color: var(--c-accent2);
+    border-color: rgba(255,94,156,0.4);
+  }
+  .chat-reset.spinning {
+    animation: spinOnce 0.45s ease forwards;
+  }
+  @keyframes spinOnce {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .chat-body {
+    flex: 1;
+    padding: 1.25rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(132,94,255,0.2) transparent;
+  }
+  .chat-body::-webkit-scrollbar { width: 4px; }
+  .chat-body::-webkit-scrollbar-thumb { background: rgba(132,94,255,0.2); border-radius: 2px; }
+
+  .msg {
+    max-width: 88%;
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg-bot {
+    background: rgba(132,94,255,0.1);
+    border: 1px solid rgba(132,94,255,0.15);
+    color: var(--c-text);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .msg-user {
+    background: var(--c-accent);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+  }
+  .msg-time {
+    font-size: 0.65rem;
+    color: var(--c-dimmer);
+    margin-top: 0.2rem;
+  }
+  .msg-user + .msg-time { text-align: right; }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(132,94,255,0.08);
+    border: 1px solid rgba(132,94,255,0.12);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .typing-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    animation: typingBounce 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .chat-input-wrap {
+    padding: 1rem;
+    border-top: 1px solid var(--c-border);
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(0,0,0,0.2);
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--c-text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input::placeholder { color: var(--c-dimmer); }
+  .chat-input:focus { border-color: var(--c-border-glow); }
+  .chat-send {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: var(--c-accent);
+    color: #fff;
+    font-size: 1rem;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+  }
+  .chat-send:hover { background: #9b7aff; transform: scale(1.05); }
+
+  /* quick-reply chips */
+  .quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+  .qr-chip {
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(132,94,255,0.3);
+    background: rgba(132,94,255,0.06);
+    font-size: 0.74rem;
+    color: var(--c-accent);
+    cursor: none;
+    transition: background 0.15s, border-color 0.15s;
+    font-family: var(--font-body);
+  }
+  .qr-chip:hover { background: rgba(132,94,255,0.15); border-color: rgba(132,94,255,0.5); }
+
+  /* ====== PROMPT BLOCK ====== */
+  .prompt-section {
+    padding: 5rem 4rem;
+  }
+  .prompt-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 4px;
+    background: var(--c-card);
+    width: fit-content;
+    margin-bottom: 2rem;
+  }
+  .tab-btn {
+    padding: 0.55rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--c-muted);
+    cursor: none;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .tab-btn.active {
+    background: var(--c-accent);
+    color: #fff;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .code-block {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--c-border);
+    background: rgba(132,94,255,0.04);
+  }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .cd-r { background: #ff5f57; }
+  .cd-y { background: #febc2e; }
+  .cd-g { background: #28c840; }
+  .code-title {
+    font-size: 0.75rem;
+    color: var(--c-dimmer);
+    letter-spacing: 0.05em;
+  }
+  .copy-btn {
+    font-size: 0.72rem;
+    color: var(--c-muted);
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: 6px;
+    padding: 0.3rem 0.75rem;
+    cursor: none;
+    font-family: var(--font-body);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .copy-btn:hover { color: var(--c-text); border-color: var(--c-dimmer); }
+  .code-body {
+    padding: 1.75rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.75;
+    color: var(--c-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 440px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(132,94,255,0.2) transparent;
+  }
+  .code-body::-webkit-scrollbar { width: 4px; }
+  .code-body::-webkit-scrollbar-thumb { background: rgba(132,94,255,0.2); border-radius: 2px; }
+  .hl-key { color: var(--c-accent); font-weight: 600; }
+  .hl-str { color: var(--c-accent3); }
+  .hl-comment { color: var(--c-dimmer); font-style: italic; }
+  .hl-num { color: var(--c-accent2); }
+
+  /* ====== CASES ====== */
+  .cases {
+    padding: 7rem 4rem;
+  }
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .case-card {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: none;
+  }
+  .case-card:hover {
+    border-color: var(--c-border-glow);
+    transform: translateY(-3px);
+  }
+  .case-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(132,94,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .case-tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .ct-1 { background: rgba(132,94,255,0.12); color: var(--c-accent); }
+  .ct-2 { background: rgba(255,94,156,0.1); color: var(--c-accent2); }
+  .ct-3 { background: rgba(94,255,207,0.1); color: var(--c-accent3); }
+  .ct-4 { background: rgba(255,200,55,0.1); color: #ffc837; }
+  .case-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .case-card p {
+    font-size: 0.85rem;
+    color: var(--c-muted);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .case-result {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .cr-1 { color: var(--c-accent); }
+  .cr-2 { color: var(--c-accent2); }
+  .cr-3 { color: var(--c-accent3); }
+  .cr-4 { color: #ffc837; }
+  .case-result-label {
+    font-size: 0.75rem;
+    color: var(--c-dimmer);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.2rem;
+  }
+
+  /* ====== CTA ====== */
+  .cta-section {
+    padding: 7rem 4rem;
+    text-align: center;
+  }
+  .cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .cta-inner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .cta-inner h2 span {
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cta-inner p {
+    font-size: 1rem;
+    color: var(--c-muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+  /* ====== FOOTER ====== */
+  footer {
+    border-top: 1px solid var(--c-border);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  footer p {
+    font-size: 0.8rem;
+    color: var(--c-dimmer);
+  }
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.78rem;
+    color: var(--c-dimmer);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--c-muted); }
+
+  /* ====== SCROLL REVEAL ====== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ====== MOBILE ====== */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-metrics { gap: 2rem; flex-wrap: wrap; justify-content: center; }
+    .services, .about, .agent-section, .prompt-section, .cases, .cta-section, footer { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; }
+    .about-visual { height: 300px; }
+    .agent-wrap { grid-template-columns: 1fr; }
+    .cases-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">VRT<span>X</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#agente">Agente IA</a></li>
+    <li><a href="#cases">Cases</a></li>
+  </ul>
+  <a href="#agente" class="nav-cta">Falar com agente</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Agência de marketing & automação</div>
+  <h1>Marketing que<br><em>realmente</em><br>converte.</h1>
+  <p>Estratégia, criação e automação inteligente para marcas que querem crescer. Atendimento 24h com agente IA integrado ao Telegram.</p>
+  <div class="hero-btns">
+    <a href="#agente" class="btn-primary">Iniciar briefing agora</a>
+    <a href="#cases" class="btn-ghost">Ver cases →</a>
+  </div>
+  <div class="hero-metrics">
+    <div class="metric-item">
+      <div class="metric-num">+340</div>
+      <div class="metric-label">Projetos entregues</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-num">97%</div>
+      <div class="metric-label">Satisfação dos clientes</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-num">3.2×</div>
+      <div class="metric-label">ROI médio gerado</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-num">24/7</div>
+      <div class="metric-label">Atendimento ativo</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item"><span class="marquee-dot"></span>Branding & Identidade</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Social Media</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Tráfego Pago</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Automação IA</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>SEO & Conteúdo</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Email Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Telegram Bot</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Inbound Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Landing Pages</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Growth Hacking</div>
+    <!-- duplicado para loop contínuo -->
+    <div class="marquee-item"><span class="marquee-dot"></span>Branding & Identidade</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Social Media</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Tráfego Pago</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Automação IA</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>SEO & Conteúdo</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Email Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Telegram Bot</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Inbound Marketing</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Landing Pages</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Growth Hacking</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services reveal" id="servicos">
+  <div class="section-label">O que fazemos</div>
+  <h2 class="section-title">Soluções completas para <span>sua marca crescer</span></h2>
+  <div class="services-grid">
+    <div class="service-card" data-num="01">
+      <div class="service-icon si-purple">🎨</div>
+      <h3>Branding & Identidade</h3>
+      <p>Construção de marca com propósito. Identidade visual, tom de voz e posicionamento estratégico que conecta com seu público.</p>
+    </div>
+    <div class="service-card" data-num="02">
+      <div class="service-icon si-pink">📱</div>
+      <h3>Social Media & Conteúdo</h3>
+      <p>Gestão completa de redes sociais com estratégia, produção criativa e análise de performance constante.</p>
+    </div>
+    <div class="service-card" data-num="03">
+      <div class="service-icon si-teal">🤖</div>
+      <h3>Automação com IA</h3>
+      <p>Agentes inteligentes para Telegram, WhatsApp e sites. Atendimento automatizado que qualifica leads e coleta briefings.</p>
+    </div>
+    <div class="service-card" data-num="04">
+      <div class="service-icon si-amber">📈</div>
+      <h3>Tráfego Pago & Performance</h3>
+      <p>Campanhas de Meta Ads, Google Ads e TikTok Ads com foco em conversão e ROI mensurável.</p>
+    </div>
+    <div class="service-card" data-num="05">
+      <div class="service-icon si-blue">🔍</div>
+      <h3>SEO & Inbound Marketing</h3>
+      <p>Posicionamento orgânico duradouro com estratégia de conteúdo, link building e otimização técnica.</p>
+    </div>
+    <div class="service-card" data-num="06">
+      <div class="service-icon si-coral">⚡</div>
+      <h3>Landing Pages & CRO</h3>
+      <p>Páginas de alta conversão com design orientado a dados, testes A/B e otimização contínua.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about reveal" id="sobre">
+  <div class="about-visual">
+    <div class="av-card av-main">
+      <div class="av-main-bg"></div>
+      <div class="av-badge">Parceiro Certificado</div>
+      <div class="av-main-content">
+        <div class="av-label">VRTX Agency</div>
+        <div class="av-title">Performance<br>& Inovação</div>
+      </div>
+    </div>
+    <div class="av-card av-float1">
+      <div class="float-title">+180%</div>
+      <div class="float-sub">Aumento médio de<br>engajamento</div>
+    </div>
+    <div class="av-card av-float2">
+      <div class="float-title">48h</div>
+      <div class="float-sub">Tempo médio para<br>proposta completa</div>
+    </div>
+  </div>
+  <div class="about-content">
+    <div class="section-label">Quem somos</div>
+    <h2 class="section-title">Uma agência movida por <span>dados e criatividade</span></h2>
+    <p>Nascemos para unir estratégia analítica com execução criativa. Nossa equipe multidisciplinar combina designers, estrategistas, desenvolvedores e especialistas em IA para entregar resultados reais.</p>
+    <p>Nosso diferencial é a automação inteligente: agentes de IA que atendem seus clientes 24 horas por dia, coletam briefings completos e direcionam para a equipe humana no momento certo.</p>
+    <div class="about-pills">
+      <span class="pill">Design Thinking</span>
+      <span class="pill">Data-Driven</span>
+      <span class="pill">Agile Marketing</span>
+      <span class="pill">Automação IA</span>
+      <span class="pill">LGPD Compliant</span>
+      <span class="pill">ROI Focus</span>
+    </div>
+  </div>
+</section>
+
+<!-- AGENT SECTION -->
+<section class="agent-section reveal" id="agente">
+  <div class="agent-wrap">
+    <div class="agent-info">
+      <div class="section-label">Agente IA — Marcelo.app</div>
+      <h2 class="section-title">Atendimento inteligente <span>no Telegram</span></h2>
+      <p>Nosso agente de IA coleta briefings completos de forma conversacional, qualifica leads e direciona para a equipe humana no momento ideal. Disponível 24h por dia, 7 dias por semana.</p>
+      <div class="agent-features">
+        <div class="af-item">
+          <div class="af-icon">🧠</div>
+          <div class="af-text">
+            <h4>Briefing Inteligente</h4>
+            <p>Coleta todas as informações do projeto de forma natural e organizada.</p>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">🔄</div>
+          <div class="af-text">
+            <h4>Handoff para Humanos</h4>
+            <p>Direciona automaticamente para a equipe quando necessário.</p>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">⚡</div>
+          <div class="af-text">
+            <h4>Resposta em Segundos</h4>
+            <p>Sem filas de espera. Atendimento imediato a qualquer hora.</p>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">🔒</div>
+          <div class="af-text">
+            <h4>Tom Profissional</h4>
+            <p>Nunca inventa informações. Credibilidade e consistência garantidas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT WIDGET -->
+    <div class="chat-widget">
+      <div class="chat-header">
+        <div class="chat-avatar">L</div>
+        <div class="chat-header-info">
+          <h4>Luna — VRTX Agency</h4>
+          <div class="chat-status">Online agora</div>
+        </div>
+        <div class="chat-tg">via Telegram</div>
+        <button class="chat-reset" id="chatReset" title="Reiniciar conversa">↺</button>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg msg-bot">
+          Olá, tudo bem? Sou a Luna, atendente inicial da equipe. Para começar, qual é o seu nome?
+        </div>
+        <div class="msg-time">Luna • agora</div>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button class="chat-send" id="chatSend" title="Enviar">➤</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMPT SECTION -->
+<section class="prompt-section reveal" id="prompt-agente">
+  <div class="prompt-container">
+    <div class="section-label">Configuração do Agente</div>
+    <h2 class="section-title" style="max-width:100%; margin-bottom:2rem;">Prompt estruturado do <span>Agente IA</span></h2>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="comportamento">Comportamento</button>
+      <button class="tab-btn" data-tab="mensagem">Mensagem Inicial</button>
+    </div>
+
+    <div class="tab-content active" id="tab-comportamento">
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots">
+            <div class="code-dot cd-r"></div>
+            <div class="code-dot cd-y"></div>
+            <div class="code-dot cd-g"></div>
+          </div>
+          <div class="code-title">BLOCO 1 — Comportamento do Agente</div>
+          <button class="copy-btn" onclick="copyText('comportamento-content')">Copiar</button>
+        </div>
+        <div class="code-body" id="comportamento-content">
+<span class="hl-key">// BLOCO 1: COMPORTAMENTO DO AGENTE</span>
+
+<span class="hl-key">IDENTIDADE:</span>
+<span class="hl-str">Você é Luna, atendente inicial da VRTX Agency.
+Sua função é conduzir um briefing comercial de forma
+humana, objetiva e natural, e encaminhar para a equipe
+humana quando necessário.</span>
+
+<span class="hl-key">SEGMENTO:</span>
+<span class="hl-str">Agência de Marketing Digital</span>
+
+<span class="hl-key">OBJETIVO PRINCIPAL:</span>
+<span class="hl-str">Coletar as 13 etapas do briefing completo e encaminhar
+para análise da equipe especializada.</span>
+
+<span class="hl-key">TOM DE VOZ:</span>
+<span class="hl-str">Natural, humano, cordial e direto. Confirmações curtas
+seguidas de uma única pergunta nova por mensagem.</span>
+
+<span class="hl-key">REGRAS OBRIGATÓRIAS:</span>
+<span class="hl-num">1.</span> Nunca use emojis.
+<span class="hl-num">2.</span> Nunca envie links ou URLs.
+<span class="hl-num">3.</span> Nunca invente informações, preços ou prazos.
+<span class="hl-num">4.</span> Nunca saia do personagem.
+<span class="hl-num">5.</span> Faça apenas UMA pergunta por mensagem.
+<span class="hl-num">6.</span> Confirmação máxima de 5 palavras antes da pergunta.
+<span class="hl-num">7.</span> Não repita dados já informados pelo cliente.
+<span class="hl-num">8.</span> Não realize agendamentos nem vendas diretas.
+<span class="hl-num">9.</span> Se perguntarem se é IA: "Sou a assistente inicial
+   da equipe e vou organizar seu briefing."
+
+<span class="hl-key">FLUXO DO BRIEFING (13 etapas):</span>
+<span class="hl-comment">1. Nome do cliente</span>
+<span class="hl-comment">2. Nome da empresa/projeto</span>
+<span class="hl-comment">3. Segmento de atuação</span>
+<span class="hl-comment">4. Objetivo principal</span>
+<span class="hl-comment">5. Presença digital atual</span>
+<span class="hl-comment">6. Problema que deseja resolver</span>
+<span class="hl-comment">7. Público-alvo</span>
+<span class="hl-comment">8. Região de atuação</span>
+<span class="hl-comment">9. Serviços desejados</span>
+<span class="hl-comment">10. Materiais já existentes</span>
+<span class="hl-comment">11. Prazo</span>
+<span class="hl-comment">12. Orçamento estimado</span>
+<span class="hl-comment">13. WhatsApp para contato humano</span>
+
+<span class="hl-key">CRITÉRIOS ESPECIAIS:</span>
+<span class="hl-comment">- Múltiplas infos na mesma msg → aproveite e avance</span>
+<span class="hl-comment">- Resposta vaga → peça esclarecimento simples</span>
+<span class="hl-comment">- Pedido de preço → depende do escopo, continue</span>
+<span class="hl-comment">- Campanha política → pré-campanha, oficial ou mandato?</span>
+<span class="hl-comment">- Negócio local → pergunte cidade/bairro</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-mensagem">
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots">
+            <div class="code-dot cd-r"></div>
+            <div class="code-dot cd-y"></div>
+            <div class="code-dot cd-g"></div>
+          </div>
+          <div class="code-title">BLOCO 2 — Mensagem Inicial</div>
+          <button class="copy-btn" onclick="copyText('mensagem-content')">Copiar</button>
+        </div>
+        <div class="code-body" id="mensagem-content">
+<span class="hl-key">// BLOCO 2: MENSAGEM INICIAL — Telegram & Site</span>
+
+<span class="hl-str">Olá, tudo bem? Sou a Luna, atendente inicial da equipe.
+Para começar, qual é o seu nome?</span>
+
+<span class="hl-comment">-------------------------------------------</span>
+<span class="hl-key">ESTRUTURA DA MENSAGEM:</span>
+
+<span class="hl-num">1.</span> Apresentação do agente (nome fictício: Luna)
+<span class="hl-num">2.</span> Função na equipe (atendente inicial)
+<span class="hl-num">3.</span> Tom acolhedor, sem emojis, sem markdown
+<span class="hl-num">4.</span> Pergunta inicial: nome do cliente
+
+<span class="hl-comment">-------------------------------------------</span>
+<span class="hl-key">PERSONALIZAÇÃO PARA OUTRO SEGMENTO:</span>
+
+<span class="hl-str">Substitua apenas os dados do item 1 do prompt:</span>
+<span class="hl-comment">- Segmento → ex: Clínica de Estética</span>
+<span class="hl-comment">- Objetivo → ex: Agendamento de avaliação</span>
+<span class="hl-comment">- Nome do agente → ex: Clara</span>
+<span class="hl-comment">- Nome da empresa → ex: BellaClinic</span>
+
+<span class="hl-key">BACKEND:</span>
+<span class="hl-str">Rota POST /chat — Node.js + Groq (llama-3.3-70b)
+Sessão persistida por sessionId no localStorage
+Histórico: 18 mensagens + system prompt
+TTL de sessão: 2 horas de inatividade</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases reveal" id="cases">
+  <div class="section-label">Cases de sucesso</div>
+  <h2 class="section-title">Resultados que <span>falam por si</span></h2>
+  <div class="cases-grid">
+    <div class="case-card">
+      <div class="case-tag ct-1">Social Media</div>
+      <h3>Marca de moda local dobra engajamento</h3>
+      <p>Estratégia de conteúdo criativo e gestão de comunidade gerou resultado expressivo em 60 dias de contrato.</p>
+      <div class="case-result cr-1">+218%</div>
+      <div class="case-result-label">Engajamento orgânico</div>
+    </div>
+    <div class="case-card">
+      <div class="case-tag ct-2">Tráfego Pago</div>
+      <h3>E-commerce reduz custo por aquisição</h3>
+      <p>Reestruturação completa de campanhas Meta Ads com foco em públicos quentes e criativos testados.</p>
+      <div class="case-result cr-2">-64%</div>
+      <div class="case-result-label">Custo por cliente</div>
+    </div>
+    <div class="case-card">
+      <div class="case-tag ct-3">Automação IA</div>
+      <h3>Clínica atende 3x mais leads sem aumentar equipe</h3>
+      <p>Agente de IA no Telegram para coleta de briefing e triagem de clientes com atendimento 24h.</p>
+      <div class="case-result cr-3">3.1×</div>
+      <div class="case-result-label">Mais leads qualificados</div>
+    </div>
+    <div class="case-card">
+      <div class="case-tag ct-4">SEO & Conteúdo</div>
+      <h3>Consultoria jurídica alcança 1a página no Google</h3>
+      <p>Estratégia de conteúdo especializado com SEO técnico e link building posicionou 40+ palavras-chave.</p>
+      <div class="case-result cr-4">+400%</div>
+      <div class="case-result-label">Tráfego orgânico</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="cta-inner">
+    <h2>Pronto para <span>transformar sua presença digital?</span></h2>
+    <p>Converse agora com nosso agente de IA no Telegram, monte seu briefing em minutos e receba uma proposta personalizada em até 48 horas.</p>
+    <div class="cta-buttons">
+      <a href="#agente" class="btn-primary">Iniciar briefing agora</a>
+      <a href="#sobre" class="btn-ghost">Conhecer a agência</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 VRTX Agency. Todos os direitos reservados.</p>
+  <ul class="footer-links">
+    <li><a href="#">Política de Privacidade</a></li>
+    <li><a href="#">Termos de Uso</a></li>
+    <li><a href="#">Contato</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* ===== CURSOR ===== */
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button, .case-card, .service-card, .qr-chip').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cur.style.width = '16px'; cur.style.height = '16px';
+      ring.style.width = '60px'; ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cur.style.width = '10px'; cur.style.height = '10px';
+      ring.style.width = '40px'; ring.style.height = '40px';
+    });
+  });
+
+  /* ===== SCROLL REVEAL ===== */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  /* ===== TABS ===== */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ===== COPY ===== */
+  function copyText(id) {
+    const el = document.getElementById(id);
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = el.previousElementSibling?.querySelector('.copy-btn') ||
+                  document.querySelector(`[onclick="copyText('${id}')"]`);
+      if (btn) { btn.textContent = 'Copiado!'; setTimeout(() => btn.textContent = 'Copiar', 2000); }
+    });
+  }
+
+  /* ===== CHAT BOT — integrado ao backend real ===== */
+  const BACKEND_URL = 'https://alienate-lively-budget.ngrok-free.dev';
+  const WELCOME_MSG = 'Olá, tudo bem? Sou a Luna, atendente inicial da equipe. Para começar, qual é o seu nome?';
+
+  const chatBody  = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend  = document.getElementById('chatSend');
+
+  // sessionId persistido para manter contexto entre recargas
+  let sessionId = localStorage.getItem('vrtx_session') || null;
+  let isSending = false;
+
+  function addMsg(text, isBot) {
+    const msg = document.createElement('div');
+    msg.className = 'msg ' + (isBot ? 'msg-bot' : 'msg-user');
+    msg.textContent = text;
+    chatBody.appendChild(msg);
+    const time = document.createElement('div');
+    time.className = 'msg-time';
+    time.textContent = isBot ? 'Luna • agora' : 'Você • agora';
+    chatBody.appendChild(time);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'typing-indicator'; t.id = 'typing';
+    t.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    chatBody.appendChild(t);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+  }
+
+  function setInputState(disabled) {
+    chatInput.disabled = disabled;
+    chatSend.disabled  = disabled;
+    chatInput.placeholder = disabled ? 'Luna está digitando...' : 'Digite sua mensagem...';
+  }
+
+  async function sendToBackend(message) {
+    const res = await fetch(`${BACKEND_URL}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, sessionId })
+    });
+    const data = await res.json();
+    if (data.sessionId) {
+      sessionId = data.sessionId;
+      localStorage.setItem('vrtx_session', sessionId);
+    }
+    if (!data.ok) throw new Error(data.error || 'Erro desconhecido');
+    return data.reply;
+  }
+
+  async function handleUserInput(text) {
+    if (isSending || !text.trim()) return;
+    isSending = true;
+    setInputState(true);
+
+    addMsg(text, false);
+    showTyping();
+
+    try {
+      const reply = await sendToBackend(text);
+      removeTyping();
+      addMsg(reply, true);
+    } catch (err) {
+      removeTyping();
+      addMsg('Ops, não consegui responder agora. Tente novamente em instantes.', true);
+      console.error(err);
+    }
+
+    isSending = false;
+    setInputState(false);
+    chatInput.focus();
+  }
+
+  function sendMessage() {
+    const val = chatInput.value.trim();
+    if (!val) return;
+    chatInput.value = '';
+    handleUserInput(val);
+  }
+
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+  /* ===== RESET CHAT ===== */
+  const chatReset = document.getElementById('chatReset');
+  chatReset.addEventListener('click', () => {
+    if (isSending) return;
+    chatReset.classList.add('spinning');
+    chatReset.addEventListener('animationend', () => chatReset.classList.remove('spinning'), { once: true });
+
+    // limpa sessão local e no backend
+    sessionId = null;
+    localStorage.removeItem('vrtx_session');
+
+    chatBody.innerHTML = '';
+    const initMsg = document.createElement('div');
+    initMsg.className = 'msg msg-bot';
+    initMsg.textContent = WELCOME_MSG;
+    const initTime = document.createElement('div');
+    initTime.className = 'msg-time';
+    initTime.textContent = 'Luna • agora';
+    chatBody.appendChild(initMsg);
+    chatBody.appendChild(initTime);
+
+    chatInput.value = '';
+    chatInput.focus();
+    chatBody.scrollTop = 0;
+  });
+</script>
+</body>
+</html>
