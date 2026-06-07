@@ -719,6 +719,46 @@
     30% { transform: translateY(-5px); opacity: 1; }
   }
 
+  .token-bar {
+    padding: 0.4rem 1rem;
+    border-top: 1px solid var(--c-border);
+    background: rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .token-label {
+    font-size: 0.65rem;
+    color: var(--c-dimmer);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .token-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .token-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--c-accent3);
+    width: 0%;
+    transition: width 0.5s ease, background 0.3s;
+  }
+  .token-fill.warn { background: #ffc837; }
+  .token-fill.danger { background: var(--c-accent2); }
+  .token-count {
+    font-size: 0.65rem;
+    color: var(--c-dimmer);
+    white-space: nowrap;
+    min-width: 72px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
   .chat-input-wrap {
     padding: 1rem;
     border-top: 1px solid var(--c-border);
@@ -1239,6 +1279,13 @@
         <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua mensagem..." autocomplete="off">
         <button class="chat-send" id="chatSend" title="Enviar">➤</button>
       </div>
+      <div class="token-bar">
+        <span class="token-label">Tokens</span>
+        <div class="token-track">
+          <div class="token-fill" id="tokenFill"></div>
+        </div>
+        <span class="token-count" id="tokenCount">— / 100k</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1462,13 +1509,66 @@ Fico feliz em ter você aqui. Qual o seu nome?</span>
   /* ===== CHAT BOT — integrado ao backend real ===== */
   const BACKEND_URL = 'https://alienate-lively-budget.ngrok-free.dev';
   const WELCOME_MSG = 'Olá, tudo bem? Sou a Luna, atendente inicial da equipe. Para começar, qual é o seu nome?';
+  const TOKEN_LIMIT = 100000;
 
   const chatBody  = document.getElementById('chatBody');
   const chatInput = document.getElementById('chatInput');
   const chatSend  = document.getElementById('chatSend');
+  const tokenFill  = document.getElementById('tokenFill');
+  const tokenCount = document.getElementById('tokenCount');
 
   let sessionId = localStorage.getItem('vrtx_session') || null;
   let isSending = false;
+  let totalTokens = parseInt(localStorage.getItem('vrtx_tokens') || '0');
+  let countdownInterval = null;
+
+  function updateTokenBar(used) {
+    totalTokens = used;
+    localStorage.setItem('vrtx_tokens', totalTokens);
+    const pct = Math.min((totalTokens / TOKEN_LIMIT) * 100, 100);
+    tokenFill.style.width = pct + '%';
+    tokenFill.className = 'token-fill' +
+      (pct >= 90 ? ' danger' : pct >= 70 ? ' warn' : '');
+    tokenCount.textContent = totalTokens.toLocaleString('pt-BR') + ' / 100k';
+  }
+
+  function parseWaitSeconds(waitTime) {
+    if (!waitTime) return 600;
+    let total = 0;
+    const h = waitTime.match(/(\d+)h/); if (h) total += parseInt(h[1]) * 3600;
+    const m = waitTime.match(/(\d+)m/); if (m) total += parseInt(m[1]) * 60;
+    const s = waitTime.match(/([\d.]+)s/); if (s) total += Math.ceil(parseFloat(s[1]));
+    return total || 600;
+  }
+
+  function startCountdown(seconds) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    let remaining = seconds;
+    setInputState(true);
+
+    function tick() {
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      tokenCount.textContent = `Disponível em ${m}m${s.toString().padStart(2,'0')}s`;
+      tokenFill.className = 'token-fill danger';
+      tokenFill.style.width = '100%';
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        totalTokens = 0;
+        localStorage.setItem('vrtx_tokens', '0');
+        updateTokenBar(0);
+        setInputState(false);
+        tokenCount.textContent = '0 / 100k';
+        addMsg('Tokens renovados! Pode continuar a conversa.', true);
+      }
+      remaining--;
+    }
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  if (totalTokens > 0) updateTokenBar(totalTokens);
 
   function addMsg(text, isBot) {
     const msg = document.createElement('div');
@@ -1512,6 +1612,14 @@ Fico feliz em ter você aqui. Qual o seu nome?</span>
       sessionId = data.sessionId;
       localStorage.setItem('vrtx_session', sessionId);
     }
+    if (data.usage?.total_tokens) {
+      updateTokenBar(totalTokens + data.usage.total_tokens);
+    }
+    if (data.rateLimited) {
+      const seconds = parseWaitSeconds(data.waitTime);
+      startCountdown(seconds);
+      throw new Error('rate_limited');
+    }
     if (!data.ok) throw new Error(data.error || 'Erro desconhecido');
     return data.reply;
   }
@@ -1528,11 +1636,16 @@ Fico feliz em ter você aqui. Qual o seu nome?</span>
       addMsg(reply, true);
     } catch (err) {
       removeTyping();
-      addMsg('Ops, não consegui responder agora. Tente novamente em instantes.', true);
+      if (err.message === 'rate_limited') {
+        addMsg('Limite diário de tokens atingido. O contador acima mostra quando o serviço volta.', true);
+      } else {
+        addMsg('Ops, não consegui responder agora. Tente novamente em instantes.', true);
+        setInputState(false);
+      }
       console.error(err);
     }
     isSending = false;
-    setInputState(false);
+    if (!countdownInterval) setInputState(false);
     chatInput.focus();
   }
 
