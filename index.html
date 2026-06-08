@@ -1900,7 +1900,9 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
   // Busca tokens reais do servidor ao carregar
   async function syncTokensFromServer() {
     try {
-      const res = await fetch(`${BACKEND_URL}/health`);
+      const res = await fetch(`${BACKEND_URL}/health`, {
+        headers: { 'ngrok-skip-browser-warning': '1' }
+      });
       const data = await res.json();
       if (data.ok && typeof data.dailyTokens === 'number') {
         totalTokens = data.dailyTokens;
@@ -1964,7 +1966,10 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
   async function sendToBackend(message) {
     const res = await fetch(`${BACKEND_URL}/chat`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': '1'
+      },
       body: JSON.stringify({ message, sessionId })
     });
     const data = await res.json();
