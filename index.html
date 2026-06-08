@@ -950,6 +950,20 @@
   .hl-str { color: var(--c-accent3); }
   .hl-comment { color: rgba(240,238,255,0.72); font-style: italic; }
   .hl-num { color: var(--c-accent2); }
+  .prompt-link {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-block;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .prompt-link:hover {
+    color: var(--c-accent3);
+  }
 
   /* ====== CASES ====== */
   .cases {
@@ -1581,7 +1595,7 @@
           <button class="copy-btn" onclick="copyText('comportamento-content')">Copiar</button>
         </div>
         <div class="code-body" id="comportamento-content">
-<span class="hl-key">SYSTEM PROMPT — Luna v2.1</span>
+<span class="hl-key">SYSTEM PROMPT — Luna v3.0</span>
 <span class="hl-comment">// Agente conversacional para coleta de briefing</span>
 
 <span class="hl-key">IDENTIDADE:</span>
@@ -1589,27 +1603,26 @@
 Conduza o briefing de forma humana, objetiva e natural.</span>
 
 <span class="hl-key">REGRAS DE COMPORTAMENTO:</span>
-<span class="hl-num">→</span> Faça apenas UMA pergunta por mensagem
-<span class="hl-num">→</span> Confirme o que ouviu em até 5 palavras antes de perguntar
-<span class="hl-num">→</span> Ofereça 2-3 sugestões criativas por pergunta
-<span class="hl-num">→</span> Nunca repita dados já informados pelo cliente
+<span class="hl-num">→</span> Siga o fluxo na ordem exata — sem pular, sem repetir etapas
+<span class="hl-num">→</span> Uma pergunta por mensagem com confirmação curta (máx 5 palavras)
+<span class="hl-num">→</span> Ofereça 2-3 sugestões criativas adaptadas ao contexto do cliente
+<span class="hl-num">→</span> Nunca repita dados já informados — verifique o histórico antes
 <span class="hl-num">→</span> Nunca invente informações, preços ou prazos
 <span class="hl-num">→</span> Nunca use emojis, links ou markdown
 <span class="hl-num">→</span> Não realize agendamentos nem vendas diretas
 
-<span class="hl-key">ANTI-REPETIÇÃO:</span>
-<span class="hl-comment">// Use os dados internamente para conduzir a próxima pergunta</span>
-<span class="hl-comment">// Confirmações aceitas: "Perfeito.", "Entendi.", "Certo.", "Ótimo."</span>
-<span class="hl-comment">// Nunca faça recap no meio do atendimento</span>
+<span class="hl-key">EFICIÊNCIA:</span>
+<span class="hl-comment">// Aproveite múltiplas respostas em uma única mensagem</span>
+<span class="hl-comment">// Infira dados com segurança pelo contexto sem perguntar</span>
+<span class="hl-comment">// Agrupe perguntas correlatas quando fizer sentido</span>
+<span class="hl-comment">// Meta: briefing completo no menor número de trocas possível</span>
 
 <span class="hl-key">ENCERRAMENTO:</span>
-<span class="hl-str">Ao coletar todas as informações necessárias, apresente
-um resumo objetivo e informe que a equipe vai analisar.
-Notificação automática é enviada ao time em tempo real.</span>
+<span class="hl-str">Resumo objetivo ao final + notificação automática ao time.</span>
 
-<span class="hl-key">MODELO:</span> <span class="hl-str">llama-3.3-70b-versatile</span>
-<span class="hl-key">TEMPERATURA:</span> <span class="hl-str">0.28</span>
-<span class="hl-key">JANELA DE CONTEXTO:</span> <span class="hl-str">18 mensagens + system prompt</span>
+<span class="hl-key">MODELO:</span> <span class="hl-str">claude-haiku-4-5</span>
+<span class="hl-key">MAX TOKENS:</span> <span class="hl-str">300 por resposta</span>
+<span class="hl-key">JANELA DE CONTEXTO:</span> <span class="hl-str">8 mensagens + system prompt</span>
         </div>
       </div>
     </div>
@@ -1640,16 +1653,23 @@ Para começar, qual é o seu nome?"</span>
 <span class="hl-num">5.</span> Notificação enviada ao time com o briefing completo
 
 <span class="hl-key">STACK TÉCNICO:</span>
-<span class="hl-comment">// Backend: Node.js + Express — Oracle Cloud</span>
-<span class="hl-comment">// IA: Groq API — inferência ultrarrápida</span>
-<span class="hl-comment">// Tunnel: ngrok — URL fixa, sempre online</span>
-<span class="hl-comment">// Sessão: persistida em arquivo + localStorage</span>
+<span class="hl-comment">// Backend: Node.js + Express — Oracle Cloud ARM</span>
+<span class="hl-comment">// IA: Anthropic API — Claude Haiku 4.5</span>
+<span class="hl-comment">// Tunnel: ngrok — domínio fixo, sempre online</span>
+<span class="hl-comment">// Sessão: persistida em arquivo JSON + localStorage</span>
 <span class="hl-comment">// Webhook: Telegram Bot API com secret token</span>
+<span class="hl-comment">// Deploy: Vercel (site) + PM2 (backend)</span>
 
 <span class="hl-key">ADAPTÁVEL A QUALQUER SEGMENTO:</span>
 <span class="hl-str">Substitua o contexto do negócio no system prompt
 e o agente se comporta de forma totalmente diferente —
 mesmo modelo, nova personalidade, novo objetivo.</span>
+
+<span class="hl-num">PROJETOS DE AUTOMAÇÃO:</span>
+<span class="hl-comment">// Quer um agente assim para o seu negócio?</span>
+<a href="mailto:msettejr@outlook.com" class="prompt-link">⟶ msettejr@outlook.com</a>
+<span class="hl-comment">// Repositórios e projetos open source:</span>
+<a href="https://github.com/msette-jr" target="_blank" class="prompt-link">⟶ github.com/msette-jr</a>
         </div>
       </div>
     </div>
@@ -1836,101 +1856,28 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
   /* ===== CHAT BOT — integrado ao backend real ===== */
   const BACKEND_URL = 'https://alienate-lively-budget.ngrok-free.dev';
   const WELCOME_MSG = 'Olá, tudo bem? Sou a Luna, atendente inicial da equipe. Para começar, qual é o seu nome?';
-  const TOKEN_LIMIT = 100000;
+  const TOKEN_LIMIT = 8000000;
 
-  const chatBody  = document.getElementById('chatBody');
-  const chatInput = document.getElementById('chatInput');
-  const chatSend  = document.getElementById('chatSend');
+  const chatBody   = document.getElementById('chatBody');
+  const chatInput  = document.getElementById('chatInput');
+  const chatSend   = document.getElementById('chatSend');
   const tokenFill  = document.getElementById('tokenFill');
   const tokenCount = document.getElementById('tokenCount');
+  const tokenResetEl = document.getElementById('tokenReset');
 
   let sessionId = localStorage.getItem('vrtx_session') || null;
   let isSending = false;
   let totalTokens = parseInt(localStorage.getItem('vrtx_tokens') || '0');
   let countdownInterval = null;
 
-  function updateTokenBar(used) {
-    totalTokens = used;
-    localStorage.setItem('vrtx_tokens', totalTokens);
-    const pct = Math.min((totalTokens / TOKEN_LIMIT) * 100, 100);
-    tokenFill.style.width = pct + '%';
-    tokenFill.className = 'token-fill' +
-      (pct >= 90 ? ' danger' : pct >= 70 ? ' warn' : '');
-    tokenCount.textContent = totalTokens.toLocaleString('pt-BR') + ' / 100k';
+  // ---- funções utilitárias ----
+
+  function setInputState(disabled) {
+    chatInput.disabled = disabled;
+    chatSend.disabled  = disabled;
+    chatInput.placeholder = disabled ? 'Aguarde...' : 'Digite sua mensagem...';
   }
-
-  function parseWaitSeconds(waitTime) {
-    if (!waitTime) return 600;
-    let total = 0;
-    const h = waitTime.match(/(\d+)h/); if (h) total += parseInt(h[1]) * 3600;
-    const m = waitTime.match(/(\d+)m/); if (m) total += parseInt(m[1]) * 60;
-    const s = waitTime.match(/([\d.]+)s/); if (s) total += Math.ceil(parseFloat(s[1]));
-    return total || 600;
-  }
-
-  function startCountdown(seconds) {
-    if (countdownInterval) clearInterval(countdownInterval);
-    let remaining = seconds;
-    setInputState(true);
-
-    function tick() {
-      const m = Math.floor(remaining / 60);
-      const s = remaining % 60;
-      tokenResetEl.textContent = `disponível em ${m}m${s.toString().padStart(2,'0')}s`;
-      tokenFill.className = 'token-fill danger';
-      tokenFill.style.width = '100%';
-      if (remaining <= 0) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-        totalTokens = 0;
-        localStorage.setItem('vrtx_tokens', '0');
-        updateTokenBar(0);
-        setInputState(false);
-        updateDailyReset();
-        addMsg('Tokens renovados! Pode continuar a conversa.', true);
-      }
-      remaining--;
-    }
-    tick();
-    countdownInterval = setInterval(tick, 1000);
-  }
-
-  if (totalTokens > 0) updateTokenBar(totalTokens);
-
-  // Busca tokens reais do servidor ao carregar
-  async function syncTokensFromServer() {
-    try {
-      const res = await fetch(`${BACKEND_URL}/health`, {
-        headers: { 'ngrok-skip-browser-warning': '1' }
-      });
-      const data = await res.json();
-      if (data.ok && typeof data.dailyTokens === 'number') {
-        totalTokens = data.dailyTokens;
-        localStorage.setItem('vrtx_tokens', totalTokens);
-        updateTokenBar(totalTokens);
-      }
-    } catch (e) { /* silencioso */ }
-  }
-  syncTokensFromServer();
-
-  // Countdown até meia-noite UTC (reset diário da Groq)
-  const tokenResetEl = document.getElementById('tokenReset');
-  function updateDailyReset() {
-    const now = new Date();
-    const midnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
-    const diff = Math.floor((midnight - now) / 1000);
-    const h = Math.floor(diff / 3600);
-    const m = Math.floor((diff % 3600) / 60);
-    const s = diff % 60;
-    tokenResetEl.textContent = `reset em ${h}h${m.toString().padStart(2,'0')}m${s.toString().padStart(2,'0')}s`;
-    if (diff <= 0) {
-      totalTokens = 0;
-      localStorage.setItem('vrtx_tokens', '0');
-      updateTokenBar(0);
-    }
-  }
-  updateDailyReset();
-  setInterval(updateDailyReset, 1000);
+  setInputState(false); // garante habilitado ao carregar
 
   function addMsg(text, isBot) {
     const msg = document.createElement('div');
@@ -1957,12 +1904,78 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
     if (t) t.remove();
   }
 
-  function setInputState(disabled) {
-    chatInput.disabled = disabled;
-    chatSend.disabled  = disabled;
-    chatInput.placeholder = disabled ? 'Luna está digitando...' : 'Digite sua mensagem...';
+  let TOKEN_LIMIT_ACTUAL = TOKEN_LIMIT;
+
+  function formatTokens(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(2) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+    return n.toString();
   }
 
+  function updateTokenBar(used) {
+    totalTokens = Math.min(used, TOKEN_LIMIT_ACTUAL);
+    localStorage.setItem('vrtx_tokens', totalTokens);
+    const pct = Math.min((totalTokens / TOKEN_LIMIT_ACTUAL) * 100, 100);
+    tokenFill.style.width = pct + '%';
+    tokenFill.className = 'token-fill' +
+      (pct >= 90 ? ' danger' : pct >= 70 ? ' warn' : '');
+    tokenCount.textContent = formatTokens(totalTokens) + ' / ' + formatTokens(TOKEN_LIMIT_ACTUAL);
+  }
+
+  // Countdown diário removido — Anthropic não tem limite diário
+  tokenResetEl.textContent = 'claude haiku';
+
+  // ---- countdown rate limit ----
+  function parseWaitSeconds(waitTime) {
+    if (!waitTime) return 600;
+    let total = 0;
+    const h = waitTime.match(/(\d+)h/); if (h) total += parseInt(h[1]) * 3600;
+    const m = waitTime.match(/(\d+)m/); if (m) total += parseInt(m[1]) * 60;
+    const s = waitTime.match(/([\d.]+)s/); if (s) total += Math.ceil(parseFloat(s[1]));
+    return total || 600;
+  }
+
+  function startCountdown(seconds) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    let remaining = seconds;
+
+    function tick() {
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      tokenResetEl.textContent = `disponível em ${m}m${s.toString().padStart(2,'0')}s`;
+      tokenFill.className = 'token-fill danger';
+      tokenFill.style.width = '100%';
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        setInputState(false);
+        tokenResetEl.textContent = 'claude haiku';
+        addMsg('Pode continuar — serviço disponível novamente.', true);
+      }
+      remaining--;
+    }
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  // ---- sync tokens do servidor ----
+  if (totalTokens > 0) updateTokenBar(totalTokens);
+
+  async function syncTokensFromServer() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/health`, {
+        headers: { 'ngrok-skip-browser-warning': '1' }
+      });
+      const data = await res.json();
+      if (data.ok && typeof data.dailyTokens === 'number') {
+        if (data.tokenLimit) TOKEN_LIMIT_ACTUAL = data.tokenLimit;
+        updateTokenBar(data.dailyTokens);
+      }
+    } catch (e) { /* silencioso */ }
+  }
+  syncTokensFromServer();
+
+  // ---- backend ----
   async function sendToBackend(message) {
     const res = await fetch(`${BACKEND_URL}/chat`, {
       method: 'POST',
@@ -2002,10 +2015,9 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
     } catch (err) {
       removeTyping();
       if (err.message === 'rate_limited') {
-        addMsg('Limite diário de tokens atingido. O contador acima mostra quando o serviço volta.', true);
+        addMsg('Limite atingido, aguarde um instante.', true);
       } else {
         addMsg('Ops, não consegui responder agora. Tente novamente em instantes.', true);
-        setInputState(false);
       }
       console.error(err);
     }
