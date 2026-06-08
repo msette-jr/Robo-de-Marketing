@@ -1876,7 +1876,7 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
     function tick() {
       const m = Math.floor(remaining / 60);
       const s = remaining % 60;
-      tokenCount.textContent = `Disponível em ${m}m${s.toString().padStart(2,'0')}s`;
+      tokenResetEl.textContent = `disponível em ${m}m${s.toString().padStart(2,'0')}s`;
       tokenFill.className = 'token-fill danger';
       tokenFill.style.width = '100%';
       if (remaining <= 0) {
@@ -1886,7 +1886,7 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
         localStorage.setItem('vrtx_tokens', '0');
         updateTokenBar(0);
         setInputState(false);
-        tokenCount.textContent = '0 / 100k';
+        updateDailyReset();
         addMsg('Tokens renovados! Pode continuar a conversa.', true);
       }
       remaining--;
