@@ -185,9 +185,9 @@
   }
   .hero h1 {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-size: clamp(3rem, 6.5vw, 6.2rem);
     font-weight: 800;
-    line-height: 0.92;
+    line-height: 0.95;
     letter-spacing: -0.04em;
     margin-bottom: 1.8rem;
   }
@@ -265,7 +265,7 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--c-dimmer);
+    color: rgba(240,238,255,0.45);
     margin-top: 0.25rem;
   }
 
@@ -294,7 +294,8 @@
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--c-dimmer);
+    color: rgba(230,248,255,0.38);
+    text-shadow: 0 0 8px rgba(168,240,255,0.08);
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -302,7 +303,8 @@
   .marquee-dot {
     width: 4px; height: 4px;
     border-radius: 50%;
-    background: var(--c-accent);
+    background: rgba(94,255,207,0.55);
+    box-shadow: 0 0 4px rgba(94,255,207,0.35);
     flex-shrink: 0;
   }
 
@@ -430,7 +432,11 @@
     background: radial-gradient(ellipse at 30% 40%, rgba(132,94,255,0.18) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 70%, rgba(255,94,156,0.1) 0%, transparent 50%);
   }
-  .av-main-content { position: relative; z-index: 1; }
+  .av-main-content {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+  }
   .av-label {
     font-size: 0.72rem;
     letter-spacing: 0.1em;
@@ -457,26 +463,38 @@
     text-transform: uppercase;
     padding: 0.35rem 0.9rem;
     border-radius: 100px;
+    z-index: 2;
   }
+  /* Cards flutuantes redesenhados — sem sobreposição */
   .av-float1 {
-    top: -20px; right: -20px;
-    width: 200px;
+    top: 16px;
+    right: -16px;
+    width: 180px;
+    z-index: 3;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
   .av-float2 {
-    bottom: 80px; left: -30px;
-    width: 170px;
+    bottom: 16px;
+    left: -16px;
+    width: 160px;
+    z-index: 3;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
   .float-title {
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--c-accent);
+    line-height: 1;
   }
   .float-sub {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     color: var(--c-muted);
-    margin-top: 0.25rem;
+    margin-top: 0.35rem;
+    line-height: 1.4;
   }
 
   .about-content .section-title { max-width: 100%; }
@@ -921,7 +939,7 @@
   .code-body::-webkit-scrollbar-thumb { background: rgba(132,94,255,0.2); border-radius: 2px; }
   .hl-key { color: var(--c-accent); font-weight: 600; }
   .hl-str { color: var(--c-accent3); }
-  .hl-comment { color: var(--c-dimmer); font-style: italic; }
+  .hl-comment { color: rgba(240,238,255,0.55); font-style: italic; }
   .hl-num { color: var(--c-accent2); }
 
   /* ====== CASES ====== */
@@ -1050,11 +1068,11 @@
   }
   .footer-links a {
     font-size: 0.78rem;
-    color: var(--c-dimmer);
+    color: var(--c-muted);
     text-decoration: none;
     transition: color 0.2s;
   }
-  .footer-links a:hover { color: var(--c-muted); }
+  .footer-links a:hover { color: var(--c-text); }
 
   /* ====== COOKIE BANNER ====== */
   .cookie-banner {
@@ -1322,6 +1340,7 @@
     <li><a href="#servicos">Serviços</a></li>
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#agente">Agente IA</a></li>
+    <li><a href="#prompt-agente">Prompt</a></li>
     <li><a href="#cases">Cases</a></li>
   </ul>
   <a href="#agente" class="nav-cta">Falar com agente</a>
@@ -1435,11 +1454,11 @@
     </div>
     <div class="av-card av-float1">
       <div class="float-title">+180%</div>
-      <div class="float-sub">Aumento médio de<br>engajamento</div>
+      <div class="float-sub">Aumento médio de engajamento</div>
     </div>
     <div class="av-card av-float2">
       <div class="float-title">48h</div>
-      <div class="float-sub">Tempo médio para<br>proposta completa</div>
+      <div class="float-sub">Tempo médio para proposta</div>
     </div>
   </div>
   <div class="about-content">
