@@ -937,7 +937,7 @@
     font-family: 'Courier New', monospace;
     font-size: 0.8rem;
     line-height: 1.75;
-    color: var(--c-muted);
+    color: rgba(240,238,255,0.72);
     white-space: pre-wrap;
     word-break: break-word;
     max-height: 440px;
@@ -949,7 +949,7 @@
   .code-body::-webkit-scrollbar-thumb { background: rgba(132,94,255,0.2); border-radius: 2px; }
   .hl-key { color: var(--c-accent); font-weight: 600; }
   .hl-str { color: var(--c-accent3); }
-  .hl-comment { color: rgba(240,238,255,0.55); font-style: italic; }
+  .hl-comment { color: rgba(240,238,255,0.72); font-style: italic; }
   .hl-num { color: var(--c-accent2); }
 
   /* ====== CASES ====== */
@@ -1562,12 +1562,12 @@
 <!-- PROMPT SECTION -->
 <section class="prompt-section reveal" id="prompt-agente">
   <div class="prompt-container">
-    <div class="section-label">Configuração do Agente</div>
-    <h2 class="section-title" style="max-width:100%; margin-bottom:2rem;">Prompt estruturado do <span>Agente IA</span></h2>
+    <div class="section-label">Como o Agente Funciona</div>
+    <h2 class="section-title" style="max-width:100%; margin-bottom:2rem;">Inteligência conversacional <span>sob medida</span></h2>
 
     <div class="tabs">
       <button class="tab-btn active" data-tab="comportamento">Comportamento</button>
-      <button class="tab-btn" data-tab="mensagem">Mensagem Inicial</button>
+      <button class="tab-btn" data-tab="mensagem">Primeiro Contato</button>
     </div>
 
     <div class="tab-content active" id="tab-comportamento">
@@ -1582,44 +1582,39 @@
           <button class="copy-btn" onclick="copyText('comportamento-content')">Copiar</button>
         </div>
         <div class="code-body" id="comportamento-content">
-<span class="hl-key">// BLOCO 1: COMPORTAMENTO DO AGENTE</span>
+<span class="hl-key">// AGENTE LUNA — VRTX Agency</span>
+<span class="hl-comment">// Configuração de comportamento conversacional</span>
 
 <span class="hl-key">IDENTIDADE:</span>
-<span class="hl-str">Você é Luna, estagiária de atendimento da VRTX Agency.
-Sua função é realizar o primeiro contato com clientes,
-coletar informações para montagem de briefing e encaminhar
-o atendimento para a equipe humana quando necessário.</span>
+<span class="hl-str">Luna é a atendente virtual da VRTX Agency.
+Ela conduz o primeiro contato com clientes de forma
+humana, acolhedora e altamente personalizada.</span>
 
-<span class="hl-key">SEGMENTO:</span>
-<span class="hl-str">Agência de Marketing Digital</span>
-
-<span class="hl-key">OBJETIVO PRINCIPAL:</span>
-<span class="hl-str">Realizar a montagem de um briefing completo sobre o projeto
-ou demanda do cliente e encaminhar para atendimento humano.</span>
+<span class="hl-key">MISSÃO:</span>
+<span class="hl-str">Entender profundamente o negócio do cliente por meio
+de uma conversa natural — sem formulários, sem pressa.
+Cada briefing é único e adaptado ao contexto de quem fala.</span>
 
 <span class="hl-key">TOM DE VOZ:</span>
-<span class="hl-str">Acolhedor, profissional e que transmite credibilidade.
-Demonstre empatia genuína sem ser excessivamente informal.</span>
+<span class="hl-str">Profissional sem ser formal. Próxima sem ser invasiva.
+Confirma o que ouve, sugere opções criativas relevantes
+e avança no ritmo do cliente.</span>
 
-<span class="hl-key">REGRAS OBRIGATÓRIAS:</span>
-<span class="hl-num">1.</span> Nunca envie emojis em nenhuma mensagem.
-<span class="hl-num">2.</span> Nunca envie links ou URLs.
-<span class="hl-num">3.</span> Nunca invente informações. Se não souber, informe que
-   vai verificar com a equipe.
-<span class="hl-num">4.</span> Nunca saia do personagem de estagiária.
-<span class="hl-num">5.</span> Responda com no máximo 130 caracteres por padrão.
-<span class="hl-num">6.</span> Não realize agendamentos nem vendas diretas.
-<span class="hl-num">7.</span> Após coletar o briefing, informe que a equipe
-   especialista entrará em contato.
+<span class="hl-key">INTELIGÊNCIA CONTEXTUAL:</span>
+<span class="hl-comment">→ Adapta sugestões ao segmento e perfil do cliente</span>
+<span class="hl-comment">→ Aproveita múltiplas informações em uma só resposta</span>
+<span class="hl-comment">→ Nunca repete o que já foi dito</span>
+<span class="hl-comment">→ Detecta quando o briefing está completo</span>
+<span class="hl-comment">→ Encaminha para equipe humana no momento certo</span>
 
-<span class="hl-key">DADOS DO BRIEFING (colete progressivamente):</span>
-<span class="hl-comment">- Nome completo do cliente</span>
-<span class="hl-comment">- Segmento ou nicho de atuação</span>
-<span class="hl-comment">- Tipo de serviço desejado</span>
-<span class="hl-comment">- Objetivo principal da ação</span>
-<span class="hl-comment">- Orçamento aproximado (opcional)</span>
-<span class="hl-comment">- Prazo desejado</span>
-<span class="hl-comment">- Canal de contato preferido</span>
+<span class="hl-key">DISPONIBILIDADE:</span>
+<span class="hl-str">24h por dia, 7 dias por semana
+Via chat no site e via Telegram
+Mesmo agente, mesma qualidade, qualquer canal</span>
+
+<span class="hl-key">TECNOLOGIA:</span>
+<span class="hl-str">Modelo de linguagem avançado com memória de sessão
+Respostas em tempo real — sem demora, sem fila</span>
         </div>
       </div>
     </div>
@@ -1636,29 +1631,32 @@ Demonstre empatia genuína sem ser excessivamente informal.</span>
           <button class="copy-btn" onclick="copyText('mensagem-content')">Copiar</button>
         </div>
         <div class="code-body" id="mensagem-content">
-<span class="hl-key">// BLOCO 2: MENSAGEM INICIAL — Telegram</span>
+<span class="hl-key">// PRIMEIRO CONTATO — Como Luna inicia</span>
+<span class="hl-comment">// Mensagem de abertura no Telegram e no site</span>
 
-<span class="hl-str">Olá, eu sou a Luna, estagiária de atendimento da VRTX Agency.
-Fico feliz em ter você aqui. Qual o seu nome?</span>
-
-<span class="hl-comment">-------------------------------------------</span>
-<span class="hl-key">ESTRUTURA DA MENSAGEM:</span>
-
-<span class="hl-num">1.</span> Apresentação do agente (nome fictício: Luna)
-<span class="hl-num">2.</span> Nome profissional da empresa (VRTX Agency)
-<span class="hl-num">3.</span> Tom acolhedor e sem emojis
-<span class="hl-num">4.</span> Pergunta inicial para dar continuidade: nome do cliente
+<span class="hl-str">"Olá, tudo bem? Sou a Luna, atendente inicial da equipe.
+Para começar, qual é o seu nome?"</span>
 
 <span class="hl-comment">-------------------------------------------</span>
-<span class="hl-key">PERSONALIZAÇÃO PARA OUTRO SEGMENTO:</span>
+<span class="hl-key">POR QUE FUNCIONA:</span>
 
-<span class="hl-comment">Substitua apenas os dados do item 1 do prompt principal:</span>
-<span class="hl-str">- Segmento do negócio → ex: Clínica de Estética</span>
-<span class="hl-str">- Objetivo → ex: Agendamento de avaliação</span>
-<span class="hl-str">- Nome do agente → ex: Clara</span>
-<span class="hl-str">- Nome da empresa → ex: BellaClinic</span>
+<span class="hl-comment">→ Sem formulários — tudo via conversa natural</span>
+<span class="hl-comment">→ Pergunta uma coisa por vez, sem sobrecarregar</span>
+<span class="hl-comment">→ Sugere opções criativas a cada etapa</span>
+<span class="hl-comment">→ Memória de sessão — nunca repete o que já sabe</span>
+<span class="hl-comment">→ Briefing completo gerado automaticamente ao final</span>
+<span class="hl-comment">→ Notificação enviada à equipe em tempo real</span>
 
-<span class="hl-comment">Todos os comportamentos e regras se mantêm inalterados.</span>
+<span class="hl-comment">-------------------------------------------</span>
+<span class="hl-key">ADAPTÁVEL A QUALQUER SEGMENTO:</span>
+
+<span class="hl-str">A mesma inteligência conversacional pode ser configurada
+para clínicas, escritórios, e-commerces, imobiliárias,
+consultorias e muito mais — mantendo o mesmo padrão
+de qualidade e personalização.</span>
+
+<span class="hl-key">QUER UM AGENTE ASSIM PARA O SEU NEGÓCIO?</span>
+<span class="hl-str">Converse com a Luna agora e solicite uma proposta.</span>
         </div>
       </div>
     </div>
