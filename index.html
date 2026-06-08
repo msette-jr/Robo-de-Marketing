@@ -635,31 +635,41 @@
   .chat-tg {
     margin-left: auto;
     font-size: 0.7rem;
-    color: var(--c-dimmer);
-    background: rgba(255,255,255,0.04);
-    padding: 0.25rem 0.6rem;
+    color: var(--c-muted);
+    background: rgba(132,94,255,0.1);
+    padding: 0.28rem 0.75rem;
     border-radius: 6px;
-    border: 1px solid var(--c-border);
+    border: 1px solid rgba(132,94,255,0.3);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    cursor: none;
+  }
+  .chat-tg:hover {
+    background: rgba(132,94,255,0.2);
+    border-color: rgba(132,94,255,0.5);
+    color: var(--c-text);
   }
   .chat-reset {
     width: 30px; height: 30px;
     border-radius: 8px;
-    border: 1px solid var(--c-border);
-    background: transparent;
-    color: var(--c-dimmer);
+    border: 1px solid rgba(255,94,156,0.3);
+    background: rgba(255,94,156,0.08);
+    color: var(--c-muted);
     font-size: 1rem;
     cursor: none;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 0.5rem;
-    transition: color 0.2s, border-color 0.2s;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
     flex-shrink: 0;
     line-height: 1;
   }
   .chat-reset:hover {
     color: var(--c-accent2);
-    border-color: rgba(255,94,156,0.4);
+    border-color: rgba(255,94,156,0.6);
+    background: rgba(255,94,156,0.15);
   }
   .chat-reset.spinning {
     animation: spinOnce 0.45s ease forwards;
@@ -1524,7 +1534,7 @@
           <h4>Luna — VRTX Agency</h4>
           <div class="chat-status">Online agora</div>
         </div>
-        <div class="chat-tg">via Telegram</div>
+        <a href="https://t.me/agente_marketing_sette_bot" target="_blank" class="chat-tg">via Telegram ↗</a>
         <button class="chat-reset" id="chatReset" title="Reiniciar conversa">↺</button>
       </div>
       <div class="chat-body" id="chatBody">
