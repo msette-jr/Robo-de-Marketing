@@ -776,7 +776,6 @@
     background: var(--c-accent3);
     width: 0%;
     transition: width 0.5s ease, background 0.3s;
-    min-width: 3px;
   }
   .token-fill.warn { background: #ffc837; }
   .token-fill.danger { background: var(--c-accent2); }
@@ -1903,7 +1902,7 @@ mesmo modelo, nova personalidade, novo objetivo.</span>
     try {
       const res = await fetch(`${BACKEND_URL}/health`);
       const data = await res.json();
-      if (data.ok && data.dailyTokens > totalTokens) {
+      if (data.ok && typeof data.dailyTokens === 'number') {
         totalTokens = data.dailyTokens;
         localStorage.setItem('vrtx_tokens', totalTokens);
         updateTokenBar(totalTokens);
