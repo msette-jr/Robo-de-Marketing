@@ -1,7 +1,7 @@
-# VRTX Agency — Site Teste
+# VRTX Agency — Site Modelo
 
-Site Fictício de agência de Marketing integrado ao agente de atendimento 
-Luna via backend Node.js + Groq API.
+Site modelo de Agência de Markenting integrado ao agente de atendimento
+Luna via backend Node.js + Anthropic API (Claude Haiku 4.5).
 
 ## Estrutura
 
@@ -12,19 +12,21 @@ README.md
 
 O chat do site conecta diretamente à rota /chat do backend:
 
-- Backend: Node.js + Express rodando no Oracle Cloud
-- IA: Groq API com modelo llama-3.3-70b-versatile
-- Tunnel: ngrok (URL fixa permanente)
+- Backend: Node.js + Express rodando no Oracle Cloud ARM
+- IA: Anthropic API — Claude Haiku 4.5
+- Tunnel: ngrok (domínio fixo permanente)
 - Sessão: sessionId persistido no localStorage do navegador
 - TTL: Sessões expiram após 2h de inatividade no servidor
 - CORS: configurado no backend (origin: *)
+- Tokens: limite baseado no saldo Anthropic (~8M tokens / US$ 7,98)
 
 ## Telegram
 
 - Bot: @agente_marketing_sette_bot
 - Webhook: https://alienate-lively-budget.ngrok-free.dev/telegram
 - O mesmo agente Luna atende tanto pelo chat do site quanto pelo Telegram
-- Ao finalizar o briefing, uma notificação é enviada automaticamente 
+- A cada pergunta, Luna oferece sugestões criativas adaptadas ao contexto
+- Ao finalizar o briefing, uma notificação é enviada automaticamente
   para o Telegram pessoal do administrador
 - Comando /start reinicia a conversa no Telegram
 
@@ -35,6 +37,11 @@ const BACKEND_URL = 'https://alienate-lively-budget.ngrok-free.dev';
 ## Deploy
 
 Site publicado via Vercel com deploy automático a partir desta branch.
+
+## Contato & Automações
+
+- Email: msettejr@outlook.com
+- GitHub: https://github.com/msette-jr
 
 ## Backend — comandos úteis
 
@@ -47,8 +54,11 @@ pm2 logs agente-telegram --lines 30
 # Reiniciar agente
 pm2 restart agente-telegram --update-env
 
-# Ver sessões ativas
+# Ver sessões e tokens do dia
 curl https://alienate-lively-budget.ngrok-free.dev/health
 
 # Reiniciar tunnel ngrok
 pm2 restart ngrok-tunnel
+
+# Atualizar tokens manualmente
+echo '{"date":"YYYY-MM-DD","tokens":0}' > ~/agente-telegram/daily-tokens.json
